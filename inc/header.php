@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta content='5' http-equiv='refresh'/>
-    <title>Owl Eyes</title>
+    <title>Animate Me</title>
     <link rel="stylesheet" type="text/css" href="inc/style.css">
     <style type="text/css" media="screen">
     </style>
