@@ -12,9 +12,18 @@
 <script>
     var canvas = document.getElementById('owlEyes');
     var cxt = canvas.getContext('2d');
-
     var outerRingSize = 40;
+
+    // CSS color alias for the background color
+    var backgroundColor = 'black'
+
+    // Set how often, in milliseconds the background should be redrawn
+    var refreshTime = 100;
+
+    // Track the pluse state; true meaning to increase brigthness and false meaning to decrease brightness
     var pulseUp = true;
+
+    // Set the base value for which RGB values are calculated
     var rgbBase = 10
 
     function setGradient(ctx) {
@@ -22,23 +31,29 @@
         var strokeGradient = cxt.createLinearGradient(0,0,1920,1080);
         
         if(pulseUp === true) {
+            // If pluseUp is true, we will increase the rgbBase value
             rgbBase += 2
 
-            if(rgbBase == 40) {
+            // If we reach our upper limit, set pulseUp to false
+            if(rgbBase >= 40) {
                 pulseUp = false
             }
         } else {
+            // If pluseUp is false, we will increase the rgbBase value
             rgbBase -= 2
 
-            if(rgbBase == 10) {
+            // If we reach our lower limit, set pulseUp to true
+            if(rgbBase <= 10) {
                 pulseUp = true
             }            
         }
 
+        // Add the stroke color stops for the gradient
         strokeGradient.addColorStop(0, "rgba(10,10,20,1)");
         strokeGradient.addColorStop(0.5, "rgba(" + rgbBase + "," + rgbBase + ", " + rgbBase * 2 + ", 1)");
         strokeGradient.addColorStop(1, "rgba(10,10,20,1)");
 
+        // Set the context's gradient stroke
         cxt.strokeStyle = strokeGradient;
     }
     
@@ -93,9 +108,8 @@
     function drawBackground() {
         var px1 = 50;
         var py1 = 70;
-        var polygonColors = ['black']
-        var color = "";
 
+        // Set the gradient for the context
         setGradient(cxt)
 
         cxt.mozImageSmoothingEnabled = false;
@@ -103,15 +117,13 @@
             var pyl = py1 + d * 125;
             for (i = 0; i < 27; i++) {
                 var pxl = px1 + i * 70;
-                color = polygonColors[Math.floor(Math.random()*polygonColors.length)]
-                polygon(cxt, pxl, pyl, outerRingSize, 6, -Math.PI/2, color, null, 0);
+                polygon(cxt, pxl, pyl, outerRingSize, 6, -Math.PI/2, backgroundColor, null, 0);
                 cxt.stroke();
                 cxt.closePath();
                 cxt.beginPath();
 
                 if(i < 26) {
-                    color = polygonColors[Math.floor(Math.random()*polygonColors.length)]
-                    polygon(cxt, pxl + 35, pyl + 63, outerRingSize, 6, -Math.PI / 2, color, null, 0);    
+                    polygon(cxt, pxl + 35, pyl + 63, outerRingSize, 6, -Math.PI / 2, backgroundColor, null, 0);    
                     cxt.stroke();
                     cxt.closePath();
                     cxt.beginPath();
@@ -120,11 +132,14 @@
         }
     }
 
-    // Clear the canvas and redraw the background every second
+    // Clear the canvas and redraw the background every n millesonds
     setInterval(function(ctx){
+        // Clear the entire canvas
         cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the background
         drawBackground();
-    }, 100);          
+    }, refreshTime);          
       
 
 </script>
