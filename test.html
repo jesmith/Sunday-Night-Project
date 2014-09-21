@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animate Me</title>
+    <link rel="stylesheet" type="text/css" href="inc/style.css">
+    <style type="text/css" media="screen">
+    </style>
+</head>
+<body>
+<canvas id="owlEyes" width="1920" height="1080"></canvas>
+
+<script>
+    var canvas = document.getElementById('owlEyes');
+    var cxt = canvas.getContext('2d');
+
+    var outerRingSize = 40;
+    var pulseUp = true;
+    var rgbBase = 10
+
+    function setGradient(ctx) {
+        // Define the canvas context stroke style as a gradient
+        var strokeGradient = cxt.createLinearGradient(0,0,1920,1080);
+        
+        if(pulseUp === true) {
+            rgbBase += 2
+
+            if(rgbBase == 40) {
+                pulseUp = false
+            }
+        } else {
+            rgbBase -= 2
+
+            if(rgbBase == 10) {
+                pulseUp = true
+            }            
+        }
+
+        strokeGradient.addColorStop(0, "rgba(10,10,20,1)");
+        strokeGradient.addColorStop(0.5, "rgba(" + rgbBase + "," + rgbBase + ", " + rgbBase * 2 + ", 1)");
+        strokeGradient.addColorStop(1, "rgba(10,10,20,1)");
+
+        cxt.strokeStyle = strokeGradient;
+    }
+    
+    function polygon(ctx, x, y, radius, sides, startAngle, backgroundColor, strokeColor, txt, ms, anticlockwise) {
+        if (sides < 3) return;
+        var theta = (Math.PI * 2)/sides;
+        theta = anticlockwise? -theta : theta;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(startAngle);
+        ctx.moveTo(radius,0);
+
+        for (var i = 1; i < sides; i++) {
+            ctx.lineTo(radius * Math.cos(theta * i), radius * Math.sin(theta * i));
+        }
+
+        ctx.closePath();
+        ctx.restore();
+
+        ctx.lineWidth = 4;
+
+        // If strokeColor is not null
+        if(strokeColor) {
+            ctx.strokeStyle = strokeColor;
+        }
+        
+        ctx.fillStyle = backgroundColor;
+        ctx.fill();
+
+        if (txt != 0) {
+            cxt.font="25px Georgia";
+            cxt.textAlign="center";
+            cxt.textBaseline="middle";
+            cxt.fillStyle="rgba(255,255,255,1)";
+            if (y - 0.1 < ly) {
+                var txty = y - 55;
+            }
+            else {
+                var txty = y + 65;
+            }
+            if (ms == 1) {
+                cxt.font="50px Georgia";
+                cxt.fillText(txt, x, y);
+            }
+            else {
+                cxt.fillText(txt, x, txty);
+            }
+        }
+    }
+
+    function drawBackground() {
+        var px1 = 50;
+        var py1 = 70;
+        var polygonColors = ['black']
+        var color = "";
+
+        setGradient(cxt)
+
+        cxt.mozImageSmoothingEnabled = false;
+        for (d = 0; d < 8; d++) {
+            var pyl = py1 + d * 125;
+            for (i = 0; i < 27; i++) {
+                var pxl = px1 + i * 70;
+                color = polygonColors[Math.floor(Math.random()*polygonColors.length)]
+                polygon(cxt, pxl, pyl, outerRingSize, 6, -Math.PI/2, color, null, 0);
+                cxt.stroke();
+                cxt.closePath();
+                cxt.beginPath();
+
+                if(i < 26) {
+                    color = polygonColors[Math.floor(Math.random()*polygonColors.length)]
+                    polygon(cxt, pxl + 35, pyl + 63, outerRingSize, 6, -Math.PI / 2, color, null, 0);    
+                    cxt.stroke();
+                    cxt.closePath();
+                    cxt.beginPath();
+                }
+            }
+        }
+    }
+
+    // Clear the canvas and redraw the background every second
+    setInterval(function(ctx){
+        cxt.clearRect(0, 0, canvas.width, canvas.height);
+        drawBackground();
+    }, 100);          
+      
+
+</script>
+</body>
+</html>
