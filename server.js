@@ -3,6 +3,7 @@ app     = express();
 fs      = require('fs');
 hbs     = require('hbs');
 routes  = require('./app/routes');
+port    = 3500;
 
 /* 
  Setup the template engine, which is based off of Handlebars
@@ -30,5 +31,5 @@ app.use(express.static('./public'));
 // Load all routes in our default index.js route
 app.use('/', routes);
 
-
-app.listen(3500);
+app.listen(port);
+console.log('Server listening on port ' + port)
