@@ -6,13 +6,24 @@ var outerRingSize = 40;
 var backgroundColor = 'black'
 
 // Set how often, in milliseconds the background should be redrawn
-var refreshTime = 100;
+var refreshTimeCanvas = 100;
+var refreshTimeData = 5000;
+
+// This object will hold server stats to build out the nodes
+var serverStats = null;
 
 // Track the pluse state; true meaning to increase brigthness and false meaning to decrease brightness
 var pulseUp = true;
 
 // Set the base value for which RGB values are calculated
 var rgbBase = 10
+
+// Make and API request to get the latest server stats and pass the data back to the callback function
+function getServerStats(callback) {
+    data =  $.getJSON('api/server_stats', function (data) {
+        callback(data);
+    });
+}
 
 function setGradient(ctx) {
     // Define the canvas context stroke style as a gradient
@@ -120,11 +131,27 @@ function drawBackground() {
     }
 }
 
-// Clear the canvas and redraw the background every n millesonds
+// Load the initial server data
+getServerStats(function (data) {
+    // Set the server stats to be equal to what is returned from the getServerStats method
+    serverStats = data;
+});
+
+
+// Clear the canvas and redraw the background every n milliseconds
 setInterval(function(ctx){
     // Clear the entire canvas
     cxt.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw the background
     drawBackground();
-}, refreshTime);     
+}, refreshTimeCanvas);     
+
+
+// Update the server stats every n milliseconds
+setInterval(function(ctx){
+    getServerStats(function (data) {
+        // Set the server stats to be equal to what is returned from the getServerStats method
+        serverStats = data;
+    });
+}, refreshTimeData);   
