@@ -9,7 +9,7 @@ var backgroundColor = 'black'
 var refreshTimeCanvas = 100;
 
 // Set how often, in milliseconds the update server stats
-var refreshTimeData = 5000;
+var refreshTimeData = 60000;
 
 // This object will hold server stats to build out the nodes
 var serverStats = null;
