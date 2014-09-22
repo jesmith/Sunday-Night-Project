@@ -7,6 +7,8 @@ var backgroundColor = 'black'
 
 // Set how often, in milliseconds the background should be redrawn
 var refreshTimeCanvas = 100;
+
+// Set how often, in milliseconds the update server stats
 var refreshTimeData = 5000;
 
 // This object will hold server stats to build out the nodes
@@ -149,7 +151,7 @@ setInterval(function(ctx){
 
 
 // Update the server stats every n milliseconds
-setInterval(function(ctx){
+setInterval(function(){
     getServerStats(function (data) {
         // Set the server stats to be equal to what is returned from the getServerStats method
         serverStats = data;
