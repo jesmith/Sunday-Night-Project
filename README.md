@@ -10,3 +10,6 @@
 3. `npm install`
 4. `node server.js`
 5. Accessible at at localhost:3500
+
+### Configuring
+Edit the config file located in `app/config.json` with the appropriate database credentials
