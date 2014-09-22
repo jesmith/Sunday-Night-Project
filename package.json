@@ -1,0 +1,24 @@
+{
+  "name": "Sunday-Night-Project",
+  "version": "0.1.0",
+  "description": "Implementing \"animation\" of canvas strokes",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jesmith/Sunday-Night-Project.git"
+  },
+  "author": "Jeff Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jesmith/Sunday-Night-Project/issues"
+  },
+  "homepage": "https://github.com/jesmith/Sunday-Night-Project",
+  "dependencies": {
+    "express": "^4.9.4",
+    "hbs": "^2.7.0",
+    "mysql": "^2.5.0"
+  }
+}
