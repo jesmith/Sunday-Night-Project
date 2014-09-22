@@ -18,7 +18,7 @@ var serverStats = null;
 var pulseUp = true;
 
 // Set the base value for which RGB values are calculated
-var rgbBase = 10
+var rgbBase = 10;
 
 // Make and API request to get the latest server stats and pass the data back to the callback function
 function getServerStats(callback) {
@@ -60,7 +60,7 @@ function setGradient(ctx) {
 
 function polygon(ctx, x, y, radius, sides, startAngle, backgroundColor, strokeColor, txt, ms, anticlockwise) {
     if (sides < 3) return;
-    var theta = (Math.PI * 2)/sides;
+    var theta = (Math.PI * 2) / sides;
     theta = anticlockwise? -theta : theta;
 
     ctx.save();
@@ -111,7 +111,7 @@ function drawBackground() {
     var py1 = 70;
 
     // Set the gradient for the context
-    setGradient(cxt)
+    setGradient(cxt);
 
     cxt.mozImageSmoothingEnabled = false;
     for (d = 0; d < 8; d++) {
@@ -141,7 +141,7 @@ getServerStats(function (data) {
 
 
 // Clear the canvas and redraw the background every n milliseconds
-setInterval(function(ctx){
+setInterval(function(ctx) {
     // Clear the entire canvas
     cxt.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -151,7 +151,7 @@ setInterval(function(ctx){
 
 
 // Update the server stats every n milliseconds
-setInterval(function(){
+setInterval(function() {
     getServerStats(function (data) {
         // Set the server stats to be equal to what is returned from the getServerStats method
         serverStats = data;
